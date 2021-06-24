@@ -5,24 +5,15 @@ import tensorflow as tf
 from PIL import Image
 from tensorflow.keras.applications.imagenet_utils import decode_predictions
 
-model = None
-
-
-def load_model():
-    model = tf.keras.applications.MobileNetV2(weights="imagenet")
-    return model
-
-
 def predict(image: Image.Image):
-    global model
-    if model is None:
-        model = load_model()
+    # loads model
+    model = tf.keras.applications.MobileNetV2(weights="imagenet")
 
     image = np.asarray(image.resize((224, 224)))[..., :3]
     image = np.expand_dims(image, 0)
     image = image / 127.5 - 1.0
 
-    result = decode_predictions(model.predict(image), 2)[0]
+    result = decode_predictions(model.predict(image), top=3)[0]
 
     response = []
     for i, res in enumerate(result):
