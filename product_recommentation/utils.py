@@ -5,7 +5,7 @@ import tensorflow as tf
 from PIL import Image
 from tensorflow.keras.applications.imagenet_utils import decode_predictions
 
-def predict(image: Image.Image):
+def predict(image: Image.Image) -> list:
     # loads model
     model = tf.keras.applications.MobileNetV2(weights="imagenet")
 
