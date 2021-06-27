@@ -1,9 +1,8 @@
-import sqlite3
-
-def db(articletype:str, colors: tuple = None):
+def db(articletype:str, color):
+    import sqlite3
     con = sqlite3.connect('db.sqlite3')
     cur = con.cursor()
-    query = f'SELECT * FROM styles WHERE articleType={articletype} OR baseColor={color}'
+    query = f'SELECT * FROM styles WHERE articleType={articletype} AND baseColor={color}'
     result = cur.execute(query)
     con.close()
     return list(result)

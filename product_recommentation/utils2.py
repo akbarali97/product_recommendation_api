@@ -1,27 +1,26 @@
 from PIL import Image
-import numpy as np
-from tensorflow.keras.preprocessing import image
-from tensorflow.image import resize
-
-from .db import db
-
-# from tensorflow.keras.applications.resnet50 import ResNet50
-# from tensorflow.keras.applications.resnet50 import preprocess_input, decode_predictions
-
-# from tensorflow.keras.applications import DenseNet121
-# from tensorflow.keras.applications.densenet import preprocess_input, decode_predictions
-
-# from tensorflow.keras.applications import MobileNet
-# from tensorflow.keras.applications.imagenet_utils import preprocess_input, decode_predictions
-
-from tensorflow.keras.applications import Xception
-from tensorflow.keras.applications.xception import preprocess_input, decode_predictions
-
 def predict2(img: Image.Image):
     '''
     This function takes an input image of PIL format.
     Returns a prediction of list of dictionaries with predicted `class` and predicted `confidence`
     '''
+    
+    import numpy as np
+    from tensorflow.keras.preprocessing import image
+    from tensorflow.image import resize
+
+
+    # from tensorflow.keras.applications.resnet50 import ResNet50
+    # from tensorflow.keras.applications.resnet50 import preprocess_input, decode_predictions
+
+    # from tensorflow.keras.applications import DenseNet121
+    # from tensorflow.keras.applications.densenet import preprocess_input, decode_predictions
+
+    # from tensorflow.keras.applications import MobileNet
+    # from tensorflow.keras.applications.imagenet_utils import preprocess_input, decode_predictions
+
+    from tensorflow.keras.applications import Xception
+    from tensorflow.keras.applications.xception import preprocess_input, decode_predictions
 
     img_width, img_height, chnl = 299, 299, 3
     input_shape=(img_width, img_height, chnl)
@@ -52,9 +51,9 @@ def get_recommendation(prediction: list, colors: list):
     to the predicted product. If the prediction is less than 80% then return the product's ids in the ratio
     of the prediction.
     '''
-    from db import db
+    from .db import db
     max_confident_item =  max(prediction, key=lambda x:x['confidence'])
-    result = db(articletype=max_confident_item['class'], colors=colors)
+    result = db(articletype=max_confident_item['class'], color=colors[0])
     return result
 
 def get_dominant_colors(img: Image.Image, numcolors=10, resize=299):
@@ -70,8 +69,6 @@ def get_dominant_colors(img: Image.Image, numcolors=10, resize=299):
         palette_index = color_counts[i][1]
         dominant_color = palette[palette_index*3:palette_index*3+3]
         dominant_color = get_colour_name(tuple(dominant_color))
-        # dominant_color = webcolors.rgb_to_name()
-
         colors.append(str(dominant_color))
     return colors
 
