@@ -1,8 +1,10 @@
 def db(articletype:str, color):
     import sqlite3
-    con = sqlite3.connect('db.sqlite3')
-    cur = con.cursor()
-    query = f'SELECT * FROM styles WHERE articleType={articletype} AND baseColor={color}'
-    result = cur.execute(query)
-    con.close()
-    return list(result)
+    with sqlite3.connect('db.sqlite3') as con:
+        cur = con.cursor()
+        result = cur.execute(f"""SELECT * 
+                                FROM styles 
+                                WHERE (articleType LIKE '%{articletype}%' AND baseColour='{color}') OR
+                                articleType LIKE '%{articletype}%'
+                                """)
+        return list(result)
