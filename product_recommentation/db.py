@@ -1,10 +1,9 @@
-def db(articletype:str, color):
+def db(articletype:str, colors):
     import sqlite3
     with sqlite3.connect('db.sqlite3') as con:
         cur = con.cursor()
-        result = cur.execute(f"""SELECT * 
+        result = cur.execute(f"""SELECT DISTINCT *
                                 FROM styles 
-                                WHERE (articleType LIKE '%{articletype}%' AND baseColour='{color}') OR
-                                articleType LIKE '%{articletype}%'
+                                WHERE articleType LIKE '%{articletype}%' AND (baseColour LIKE '%{colors[0]}%' OR baseColour LIKE '%{colors[1]}%')
                                 """)
         return list(result)

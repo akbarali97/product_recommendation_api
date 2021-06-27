@@ -38,5 +38,7 @@ async def predict_api(file: UploadFile = File(...)):
     colors = get_dominant_colors(image)
     prediction = predict2(image)
     recommendation = get_recommendation(prediction=prediction, colors=colors)
-    return recommendation
-
+    if len(recommendation) >= 10:
+        return recommendation[:10]
+    else:
+        return recommendation

@@ -53,11 +53,11 @@ def get_recommendation(prediction: list, colors: list):
     '''
     from .db import db
     max_confident_item =  max(prediction, key=lambda x:x['confidence'])
-    result = db(articletype=max_confident_item['class'], color=colors[0])
+    result = db(articletype=max_confident_item['class'], colors=colors)
     return result
 
 def get_dominant_colors(img: Image.Image, numcolors=10, resize=299):
-    # Resize image to speed up processing
+    # Resize image to speed up processing 
     img.thumbnail((resize, resize))
     # Reduce to palette
     paletted = img.convert('P', palette=Image.ADAPTIVE, colors=numcolors)
