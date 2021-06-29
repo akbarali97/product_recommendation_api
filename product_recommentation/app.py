@@ -1,10 +1,11 @@
 
 from fastapi import FastAPI, File, UploadFile
 from starlette.responses import RedirectResponse
+from fastapi.responses import FileResponse
 
 from .utils import predict, read_imagefile
 from .utils2 import predict2, get_dominant_colors, get_recommendation
-
+from settings import IMAGE_PATH
 
 app = FastAPI(
     title='Predicts object in the Image', 
@@ -42,3 +43,8 @@ async def predict_api(file: UploadFile = File(...)):
         return recommendation[:10]
     else:
         return recommendation
+
+@app.get("/images/{image_id}")
+async def get_image(image_id: str):
+    image = IMAGE_PATH + image_id + '.jpg'
+    return FileResponse(image)
