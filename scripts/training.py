@@ -66,4 +66,4 @@ model.fit(train_generator,
 	epochs = epochs, validation_data = validation_generator,
 	validation_steps = nb_validation_samples // batch_size)
 
-model.save('model_frm_g4g.h5')
+model.save('model_.h5')

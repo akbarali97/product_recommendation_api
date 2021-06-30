@@ -22,7 +22,7 @@ async def index():
 
 @app.post("/api/predict")
 async def predict_api(file: UploadFile = File(...)):
-    extension = file.filename.split(".")[-1] in ("jpg", "jpeg", "png")
+    extension = file.filename.split(".")[-1] in ("jpg", "jpeg")
     if not extension:
         return "Image must be jpg or png format!"
     image = read_imagefile(await file.read())
@@ -31,9 +31,9 @@ async def predict_api(file: UploadFile = File(...)):
 
 @app.post("/api/get-recommendation")
 async def predict_api(file: UploadFile = File(...)):
-    extension = file.filename.split(".")[-1] in ("jpg", "jpeg", "png")
+    extension = file.filename.split(".")[-1] in ("jpg", "jpeg")
     if not extension:
-        return "Image must be jpg or png format!"
+        return "Image must be jpg format!"
     image = read_imagefile(await file.read())
     colors = get_dominant_colors(image)
     prediction = predict2(image)
