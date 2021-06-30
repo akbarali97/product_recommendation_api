@@ -3,8 +3,7 @@ from fastapi import FastAPI, File, UploadFile
 from starlette.responses import RedirectResponse
 from fastapi.responses import FileResponse
 
-from .utils import predict, read_imagefile
-from .utils2 import predict2, get_dominant_colors, get_recommendation, predict3
+from .utils import predict, read_imagefile, predict2, get_dominant_colors, get_recommendation
 from settings import IMAGE_PATH
 
 app = FastAPI(
@@ -42,7 +41,8 @@ async def predict_api(file: UploadFile = File(...)):
     recommendation = recommendation[:10] if len(recommendation) >= 10 else recommendation
     response = {
         'prediction': prediction,
-        'recommendation': recommendation
+        'recommendation': recommendation,
+        'dominent_colors': colors,
         }
     return response
 
